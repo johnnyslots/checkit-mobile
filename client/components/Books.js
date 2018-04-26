@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, FlatList, TextInput } from 'react-native';
-// import { List, ListItem } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import booksStyles from '../styles/books';
+import axios from 'axios';
 
 
-const books = [
-  'The Catcher in the Rye',
-  'To Kill a Mockingbird',
-  'The Great Gatsby',
-  'In Search of Lost Time',
-  'War and Peace'
-]
+// const books = [
+//   'The Catcher in the Rye',
+//   'To Kill a Mockingbird',
+//   'The Great Gatsby',
+//   'In Search of Lost Time',
+//   'War and Peace'
+// ]
 
 export default class Game extends Component {
   constructor(props) {
@@ -27,7 +27,12 @@ export default class Game extends Component {
   }
 
   componentDidMount() {
-    this.setState({books});
+    axios.get('http://localhost:8080/api/books')
+    .then(res => res.data)
+    .then(books => {
+      this.setState({books});
+    })
+    .catch(err => console.log(err));
   }
 
   handleChange(book) {
@@ -51,7 +56,7 @@ export default class Game extends Component {
 
   render() {
     const booksList = this.state.books;
-    // console.log('!!!!', this.state)
+    console.log('LIST', booksList)
 
     return (
       <View style={booksStyles.container}>
@@ -66,10 +71,10 @@ export default class Game extends Component {
           title="Add book"
         />
         {
-          booksList.map((book, i) => {
+          booksList.map((book) => {
             return (
-              <View key={i}>
-                <Text>{book}</Text>
+              <View key={book.id}>
+                <Text>{book.title}</Text>
                 <Button onPress={() => this.deleteBook({book})} title="Delete"/>
               </View>
             )
