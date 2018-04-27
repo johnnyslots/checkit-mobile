@@ -12,13 +12,18 @@ export default class SendRec extends Component {
     this.state = {
       category: '',
       title: '',
-      notes: ''
+      notes: '',
+      sender: {}
     }
 
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleNotesChange = this.handleNotesChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({sender: this.props.navigation.state.params.user})
   }
 
   handleCategoryChange(category) {
@@ -34,6 +39,7 @@ export default class SendRec extends Component {
   }
 
   handleSubmit() {
+    console.log('SEND REC STATE', this.state)
     socket.emit('newRec', this.state);
     this.setState({
       category: '',
@@ -43,6 +49,7 @@ export default class SendRec extends Component {
   }
 
   render() {
+
 
     return (
       <View style={sendRecStyles.container}>

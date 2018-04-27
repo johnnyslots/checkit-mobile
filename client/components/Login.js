@@ -31,16 +31,19 @@ export default class Login extends Component {
   }
 
   handleSubmit() {
-
     axios.post('http://172.16.21.200:8080/auth/login', this.state)
     .then(res => res.data)
     .then(user => {
       const { navigate } = this.props.navigation;
-      navigate('Home')
+      navigate('Home', {user})
     })
     .catch(err => {
       console.log(err)
-      this.setState({incorrect: true})
+      this.setState({
+        email: '',
+        password: '',
+        incorrect: true
+      })
     })
 
   }

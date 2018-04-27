@@ -37,7 +37,6 @@ export default class Books extends Component {
   }
 
   handleSubmit() {
-
     let bookToAdd = {
       category: 'books',
       title: this.state.bookToAdd,
@@ -83,7 +82,13 @@ export default class Books extends Component {
 
   render() {
     const booksList = this.state.books;
-    // console.log('STATE', this.state)
+    const title = this.state.socketData.title;
+
+    console.log('socket-STATE ', this.state.socketData)
+    let email;
+    if(this.state.socketData.title) {
+      email = this.state.socketData.sender.email;
+    }
 
     return (
       <View style={booksStyles.container}>
@@ -91,7 +96,7 @@ export default class Books extends Component {
         {
           this.state.socketData.title ?
           <View>
-            <Text>You received a new book recommendation!</Text>
+            <Text>You received a new book recommendation from {email}!</Text>
             <Text>Book Title: {this.state.socketData.title}</Text>
             {
               this.state.socketData.notes ?
