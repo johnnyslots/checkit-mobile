@@ -4,8 +4,6 @@ import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elemen
 import { StackNavigator } from 'react-navigation';
 import sendRecStyles from '../styles/sendRec';
 import axios from 'axios';
-// window.navigator.userAgent = "react-native"
-// import SocketIOClient from 'socket.io-client';
 import socket from '../socket';
 
 export default class SendRec extends Component {
@@ -17,8 +15,6 @@ export default class SendRec extends Component {
       notes: ''
     }
 
-
-    // this.socket = SocketIOClient('http://172.16.21.200:8080', {jsonp: false});
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleNotesChange = this.handleNotesChange.bind(this);
@@ -47,7 +43,6 @@ export default class SendRec extends Component {
   }
 
   render() {
-    // console.log('STATE!', this.state)
 
     return (
       <View style={sendRecStyles.container}>

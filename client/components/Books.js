@@ -10,21 +10,20 @@ export default class Books extends Component {
     super(props);
     this.state = {
       books: [],
+      recs: [],
       socketData: {},
       bookToAdd: ''
     }
 
-    // this.socket = SocketIOClient('http://localhost:8080', {jsonp: false});
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.deleteBook = this.deleteBook.bind(this);
     this.handleSocket = this.handleSocket.bind(this);
+    this.dismissRec = this.dismissRec.bind(this);
     this.handleSocket();
   }
 
   componentDidMount() {
-    console.log('WORKING ON PHONE')
-
     axios.get('http://172.16.21.200:8080/api/recommendations/books')
     .then(res => res.data)
     .then(books => {
@@ -33,24 +32,21 @@ export default class Books extends Component {
     .catch(err => console.log(err));
   }
 
-  handleSocket() {
-    socket.on('newRec', (socketData) => {
-      console.log('DATA!!!!!', socketData)
-      this.setState({socketData})
-    })
-  }
-
   handleChange(book) {
     this.setState({bookToAdd: book});
   }
 
   handleSubmit() {
-    let bookToAdd = this.state.bookToAdd;
-    axios.post('http://172.16.21.200:8080/api/recommendations', {
+
+    let bookToAdd = {
       category: 'books',
-      title: bookToAdd,
+      title: this.state.bookToAdd,
       notes: 'some notes!'
-    })
+    }
+
+    let postData = this.state.socketData ? this.state.socketData : bookToAdd;
+
+    axios.post('http://172.16.21.200:8080/api/recommendations', postData)
     .then(res => res.data)
     .then(updatedRecs => {
       const updatedBooks = updatedRecs.filter(rec => {
@@ -58,10 +54,23 @@ export default class Books extends Component {
       })
       this.setState({
         books: updatedBooks,
+        socketData: {},
         bookToAdd: ''
       })
     })
     .catch(err => console.log(err));
+  }
+
+  handleSocket() {
+    socket.on('newRec', (socketData) => {
+      this.setState({socketData})
+    })
+  }
+
+  dismissRec() {
+    this.setState({
+      socketData: {}
+    })
   }
 
   deleteBook(bookToDelete) {
@@ -74,12 +83,32 @@ export default class Books extends Component {
 
   render() {
     const booksList = this.state.books;
-    console.log('STATE', this.state)
-
+    // console.log('STATE', this.state)
 
     return (
       <View style={booksStyles.container}>
         <Text>Books To read</Text>
+        {
+          this.state.socketData.title ?
+          <View>
+            <Text>You received a new book recommendation!</Text>
+            <Text>Book Title: {this.state.socketData.title}</Text>
+            {
+              this.state.socketData.notes ?
+              <Text>Notes: {this.state.socketData.notes}</Text>
+              : null
+            }
+            <Button
+              onPress={this.handleSubmit}
+              title="Add recommendation to my list"
+            />
+            <Button
+              onPress={this.dismissRec}
+              title="Don't add to my list"
+            />
+          </View>
+          : null
+        }
         <TextInput
           onChangeText={this.handleChange}
           value={this.state.bookToAdd}
@@ -89,11 +118,6 @@ export default class Books extends Component {
           onPress={this.handleSubmit}
           title="Add book"
         />
-        {
-          this.state.socketData.title ?
-          <Text>{this.state.socketData.title}</Text>
-          : null
-        }
         {
           booksList.map((book) => {
             return (
