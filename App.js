@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import Home from './client/components/Home';
 import MyLists from './client/components/MyLists';
 import Books from './client/components/Books';
+import SendRec from './client/components/SendRec';
 
 const RootNavigator = StackNavigator({
   Main: {
@@ -22,6 +23,12 @@ const RootNavigator = StackNavigator({
     screen: Books,
     navigationOptions: {
       headerTitle: 'Books'
+    }
+  },
+  SendRec: {
+    screen: SendRec,
+    navigationOptions: {
+      headerTitle: 'Send recommendation'
     }
   }
 });

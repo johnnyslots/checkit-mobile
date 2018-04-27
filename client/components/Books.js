@@ -3,17 +3,9 @@ import { StyleSheet, Text, View, Button, FlatList, TextInput } from 'react-nativ
 import { StackNavigator } from 'react-navigation';
 import booksStyles from '../styles/books';
 import axios from 'axios';
+import SocketIOClient from 'socket.io-client';
 
-
-// const books = [
-//   'The Catcher in the Rye',
-//   'To Kill a Mockingbird',
-//   'The Great Gatsby',
-//   'In Search of Lost Time',
-//   'War and Peace'
-// ]
-
-export default class Game extends Component {
+export default class Books extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +19,7 @@ export default class Game extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8080/api/books')
+    axios.get('http://localhost:8080/api/recommendations/books')
     .then(res => res.data)
     .then(books => {
       this.setState({books});
@@ -41,13 +33,26 @@ export default class Game extends Component {
 
   handleSubmit() {
     let bookToAdd = this.state.bookToAdd;
-    this.setState({
-      books: [...this.state.books, bookToAdd],
-      bookToAdd: ''
+    axios.post('http://localhost:8080/api/recommendations', {
+      category: 'books',
+      title: bookToAdd,
+      notes: 'some notes!'
     })
+    .then(res => res.data)
+    .then(updatedRecs => {
+      const updatedBooks = updatedRecs.filter(rec => {
+        return rec.item.category === 'books'
+      })
+      this.setState({
+        books: updatedBooks,
+        bookToAdd: ''
+      })
+    })
+    .catch(err => console.log(err));
   }
 
   deleteBook(bookToDelete) {
+    //axios.delete
     const booksArray = this.state.books;
     const index = booksArray.indexOf(bookToDelete.book);
     booksArray.splice(index, 1)
@@ -56,7 +61,6 @@ export default class Game extends Component {
 
   render() {
     const booksList = this.state.books;
-    console.log('LIST', booksList)
 
     return (
       <View style={booksStyles.container}>
@@ -74,7 +78,7 @@ export default class Game extends Component {
           booksList.map((book) => {
             return (
               <View key={book.id}>
-                <Text>{book.title}</Text>
+                <Text>{book.item.title}</Text>
                 <Button onPress={() => this.deleteBook({book})} title="Delete"/>
               </View>
             )

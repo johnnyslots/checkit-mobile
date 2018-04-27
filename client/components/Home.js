@@ -7,6 +7,7 @@ const Home = ({navigation}) => (
   <View style={homeStyles.container}>
     <Text>CheckIt</Text>
     <Button onPress={() => navigation.navigate('MyLists')} title="My lists"/>
+    <Button onPress={() => navigation.navigate('SendRec')} title="Send recommendation"/>
   </View>
 )
 
