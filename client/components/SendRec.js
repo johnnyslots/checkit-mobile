@@ -4,8 +4,9 @@ import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elemen
 import { StackNavigator } from 'react-navigation';
 import sendRecStyles from '../styles/sendRec';
 import axios from 'axios';
-window.navigator.userAgent = "react-native"
-import SocketIOClient from 'socket.io-client';
+// window.navigator.userAgent = "react-native"
+// import SocketIOClient from 'socket.io-client';
+import socket from '../socket';
 
 export default class SendRec extends Component {
   constructor(props) {
@@ -16,7 +17,8 @@ export default class SendRec extends Component {
       notes: ''
     }
 
-    this.socket = SocketIOClient('http://localhost:8080', {jsonp: false});
+
+    // this.socket = SocketIOClient('http://172.16.21.200:8080', {jsonp: false});
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleNotesChange = this.handleNotesChange.bind(this);
@@ -36,7 +38,7 @@ export default class SendRec extends Component {
   }
 
   handleSubmit() {
-    this.socket.emit('newRec', this.state);
+    socket.emit('newRec', this.state);
     this.setState({
       category: '',
       title: '',

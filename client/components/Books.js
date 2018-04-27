@@ -3,33 +3,41 @@ import { StyleSheet, Text, View, Button, FlatList, TextInput } from 'react-nativ
 import { StackNavigator } from 'react-navigation';
 import booksStyles from '../styles/books';
 import axios from 'axios';
-import SocketIOClient from 'socket.io-client';
+import socket from '../socket';
 
 export default class Books extends Component {
   constructor(props) {
     super(props);
     this.state = {
       books: [],
+      socketData: {},
       bookToAdd: ''
     }
 
-    this.socket = SocketIOClient('http://localhost:8080', {jsonp: false});
+    // this.socket = SocketIOClient('http://localhost:8080', {jsonp: false});
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.deleteBook = this.deleteBook.bind(this);
+    this.handleSocket = this.handleSocket.bind(this);
+    this.handleSocket();
   }
 
   componentDidMount() {
+    console.log('WORKING ON PHONE')
 
-    this.socket.on('newRec', (data) => {
-      console.log('DATA', data)
-    })
-    axios.get('http://localhost:8080/api/recommendations/books')
+    axios.get('http://172.16.21.200:8080/api/recommendations/books')
     .then(res => res.data)
     .then(books => {
       this.setState({books});
     })
     .catch(err => console.log(err));
+  }
+
+  handleSocket() {
+    socket.on('newRec', (socketData) => {
+      console.log('DATA!!!!!', socketData)
+      this.setState({socketData})
+    })
   }
 
   handleChange(book) {
@@ -38,7 +46,7 @@ export default class Books extends Component {
 
   handleSubmit() {
     let bookToAdd = this.state.bookToAdd;
-    axios.post('http://localhost:8080/api/recommendations', {
+    axios.post('http://172.16.21.200:8080/api/recommendations', {
       category: 'books',
       title: bookToAdd,
       notes: 'some notes!'
@@ -66,7 +74,8 @@ export default class Books extends Component {
 
   render() {
     const booksList = this.state.books;
-    console.log('hello!')
+    console.log('STATE', this.state)
+
 
     return (
       <View style={booksStyles.container}>
@@ -80,6 +89,11 @@ export default class Books extends Component {
           onPress={this.handleSubmit}
           title="Add book"
         />
+        {
+          this.state.socketData.title ?
+          <Text>{this.state.socketData.title}</Text>
+          : null
+        }
         {
           booksList.map((book) => {
             return (
