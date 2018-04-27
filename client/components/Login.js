@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import loginStyles from '../styles/login';
 import axios from 'axios';
+import ipAddress from '../utils';
 
 export default class Login extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ export default class Login extends Component {
   }
 
   handleSubmit() {
-    axios.post('http://172.16.21.200:8080/auth/login', this.state)
+    axios.post(`${ipAddress}/auth/login`, this.state)
     .then(res => res.data)
     .then(user => {
       const { navigate } = this.props.navigation;

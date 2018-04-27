@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import booksStyles from '../styles/books';
 import axios from 'axios';
 import socket from '../socket';
+import ipAddress from '../utils';
 
 export default class Books extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ export default class Books extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://172.16.21.200:8080/api/recommendations/books')
+    axios.get(`${ipAddress}/api/recommendations/books`)
     .then(res => res.data)
     .then(books => {
       this.setState({books});
@@ -43,9 +44,9 @@ export default class Books extends Component {
       notes: 'some notes!'
     }
 
-    let postData = this.state.socketData ? this.state.socketData : bookToAdd;
+    let postData = this.state.socketData.category ? this.state.socketData : bookToAdd;
 
-    axios.post('http://172.16.21.200:8080/api/recommendations', postData)
+    axios.post(`${ipAddress}/api/recommendations`, postData)
     .then(res => res.data)
     .then(updatedRecs => {
       const updatedBooks = updatedRecs.filter(rec => {
@@ -82,11 +83,10 @@ export default class Books extends Component {
 
   render() {
     const booksList = this.state.books;
-    const title = this.state.socketData.title;
-
-    console.log('socket-STATE ', this.state.socketData)
+    let title;
     let email;
     if(this.state.socketData.title) {
+      title = this.state.socketData.title;
       email = this.state.socketData.sender.email;
     }
 

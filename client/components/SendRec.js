@@ -39,7 +39,6 @@ export default class SendRec extends Component {
   }
 
   handleSubmit() {
-    console.log('SEND REC STATE', this.state)
     socket.emit('newRec', this.state);
     this.setState({
       category: '',
@@ -49,7 +48,6 @@ export default class SendRec extends Component {
   }
 
   render() {
-
 
     return (
       <View style={sendRecStyles.container}>
