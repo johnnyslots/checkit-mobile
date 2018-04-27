@@ -50,12 +50,21 @@ export default class SendRec extends Component {
     return (
       <View style={sendRecStyles.container}>
         <Text>Send recommendation</Text>
-        <FormLabel>Category</FormLabel>
-        <FormInput onChangeText={this.handleCategoryChange} />
-        <FormLabel>Title</FormLabel>
-        <FormInput onChangeText={this.handleTitleChange} />
-        <FormLabel>Notes</FormLabel>
-        <FormInput onChangeText={this.handleNotesChange}/>
+        <TextInput
+          onChangeText={this.handleCategoryChange}
+          value={this.state.category}
+          placeholder="Category"
+        />
+        <TextInput
+          onChangeText={this.handleTitleChange}
+          value={this.state.title}
+          placeholder="Title"
+        />
+        <TextInput
+          onChangeText={this.handleNotesChange}
+          value={this.state.notes}
+          placeholder="Notes"
+        />
         <Button onPress={this.handleSubmit} title="Send"/>
       </View>
     )
@@ -63,6 +72,11 @@ export default class SendRec extends Component {
 }
 
 
+//         <FormLabel>Category</FormLabel>
+//         <FormInput onChangeText={this.handleCategoryChange} />
+//         <FormLabel>Title</FormLabel>
+//         <FormInput onChangeText={this.handleTitleChange} />
+//         <FormLabel>Notes</FormLabel>
+//         <FormInput onChangeText={this.handleNotesChange}/>
 
-
-// <FormValidationMessage>This field is required</FormValidationMessage>
+// // <FormValidationMessage>This field is required</FormValidationMessage>

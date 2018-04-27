@@ -13,12 +13,17 @@ export default class Books extends Component {
       bookToAdd: ''
     }
 
+    this.socket = SocketIOClient('http://localhost:8080', {jsonp: false});
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.deleteBook = this.deleteBook.bind(this);
   }
 
   componentDidMount() {
+
+    this.socket.on('newRec', (data) => {
+      console.log('DATA', data)
+    })
     axios.get('http://localhost:8080/api/recommendations/books')
     .then(res => res.data)
     .then(books => {
@@ -61,6 +66,7 @@ export default class Books extends Component {
 
   render() {
     const booksList = this.state.books;
+    console.log('hello!')
 
     return (
       <View style={booksStyles.container}>
