@@ -11,7 +11,6 @@ export default class Books extends Component {
     super(props);
     this.state = {
       books: [],
-      recs: [],
       socketData: {},
       bookToAdd: ''
     }
@@ -73,12 +72,21 @@ export default class Books extends Component {
     })
   }
 
-  deleteBook(bookToDelete) {
-    //axios.delete
-    const booksArray = this.state.books;
-    const index = booksArray.indexOf(bookToDelete.book);
-    booksArray.splice(index, 1)
-    this.setState({books: booksArray});
+  deleteBook(bookRecToDelete) {
+    const id = bookRecToDelete.bookRec.id;
+    axios.delete(`${ipAddress}/api/recommendations/${id}`)
+    .then(res => res.data)
+    .then(() => {
+      const currentBooks = this.state.books
+      let updatedBooks = []
+      for(let i = 0; i < currentBooks.length; i++) {
+        if(currentBooks[i].id !== id) {
+          updatedBooks.push(currentBooks[i])
+        }
+      }
+      this.setState({books: updatedBooks})
+    })
+    .catch(err => console.log(err))
   }
 
   render() {
@@ -124,11 +132,11 @@ export default class Books extends Component {
           title="Add book"
         />
         {
-          booksList.map((book) => {
+          booksList.map((bookRec) => {
             return (
-              <View key={book.id}>
-                <Text>{book.item.title}</Text>
-                <Button onPress={() => this.deleteBook({book})} title="Delete"/>
+              <View key={bookRec.id}>
+                <Text>{bookRec.item.title}</Text>
+                <Button onPress={() => this.deleteBook({bookRec})} title="Delete"/>
               </View>
             )
           })

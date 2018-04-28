@@ -8,13 +8,13 @@ import Books from './client/components/Books';
 import SendRec from './client/components/SendRec';
 
 const RootNavigator = StackNavigator({
+  // Main: {
+  //     screen: Login,
+  //     navigationOptions: {
+  //       headerTitle: 'Login',
+  //     }
+  // },
   Main: {
-      screen: Login,
-      navigationOptions: {
-        headerTitle: 'Login',
-      }
-  },
-  Home: {
       screen: Home,
       navigationOptions: {
         headerTitle: 'Home',
