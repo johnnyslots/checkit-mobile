@@ -6,6 +6,7 @@ import Home from './client/components/Home';
 import MyLists from './client/components/MyLists';
 import Books from './client/components/Books';
 import SendRec from './client/components/SendRec';
+import RequestRec from './client/components/RequestRec';
 import bookInfo from './client/components/bookInfo';
 
 const RootNavigator = StackNavigator({
@@ -43,6 +44,12 @@ const RootNavigator = StackNavigator({
     screen: SendRec,
     navigationOptions: {
       headerTitle: 'Send recommendation'
+    }
+  },
+  RequestRec: {
+    screen: RequestRec,
+    navigationOptions: {
+      headerTitle: 'Request recommendation'
     }
   }
 });

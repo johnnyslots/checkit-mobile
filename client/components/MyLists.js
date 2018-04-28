@@ -11,6 +11,7 @@ const MyLists = ({navigation}) => {
     <Text>My Lists</Text>
     <Button onPress={() => navigation.navigate('Books', {user})} title="Books"/>
     <Button onPress={() => navigation.navigate('Movies')} title="Movies"/>
+    <Button onPress={() => navigation.navigate('Podcasts')} title="Podcasts"/>
     <Button onPress={() => navigation.navigate('TVShows')} title="TV Shows"/>
   </View>
   )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, FlatList, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, FlatList, TextInput, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import booksStyles from '../styles/books';
 import axios from 'axios';
@@ -70,7 +70,9 @@ export default class Books extends Component {
 
   handleSocket() {
     socket.on('newRec', (socketData) => {
-      this.setState({socketData})
+      if(socketData.email === this.state.user.email) {
+        this.setState({socketData})
+      }
     })
   }
 
@@ -159,3 +161,4 @@ export default class Books extends Component {
     )
   }
 }
+

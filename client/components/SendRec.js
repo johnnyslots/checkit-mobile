@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import sendRecStyles from '../styles/sendRec';
 import axios from 'axios';
 import socket from '../socket';
+import ipAddress from '../utils';
 
 export default class SendRec extends Component {
   constructor(props) {
@@ -13,9 +14,12 @@ export default class SendRec extends Component {
       category: '',
       title: '',
       notes: '',
+      email: '',
+      incorrectEmail: false,
       sender: {}
     }
 
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleNotesChange = this.handleNotesChange.bind(this);
@@ -24,6 +28,10 @@ export default class SendRec extends Component {
 
   componentDidMount() {
     this.setState({sender: this.props.navigation.state.params.user})
+  }
+
+  handleEmailChange(email) {
+    this.setState({email});
   }
 
   handleCategoryChange(category) {
@@ -39,11 +47,23 @@ export default class SendRec extends Component {
   }
 
   handleSubmit() {
-    socket.emit('newRec', this.state);
-    this.setState({
-      category: '',
-      title: '',
-      notes: ''
+    const userEmail = this.state.email
+    axios.get(`${ipAddress}/api/users/${userEmail}`)
+    .then(res => {
+      if(res.data.email) {
+        socket.emit('newRec', this.state);
+        this.setState({
+          email: '',
+          category: '',
+          title: '',
+          notes: '',
+          incorrectEmail: false
+        })
+      }
+    })
+    .catch(err => {
+      this.setState({incorrectEmail: true})
+      console.log(err)
     })
   }
 
@@ -52,6 +72,16 @@ export default class SendRec extends Component {
     return (
       <View style={sendRecStyles.container}>
         <Text>Send recommendation</Text>
+        <TextInput
+          onChangeText={this.handleEmailChange}
+          value={this.state.email}
+          placeholder="Send to (email)"
+        />
+        {
+          this.state.incorrectEmail ?
+          <Text>User doesn't exist</Text>
+          : null
+        }
         <TextInput
           onChangeText={this.handleCategoryChange}
           value={this.state.category}
