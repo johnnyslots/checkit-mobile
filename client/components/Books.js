@@ -12,6 +12,7 @@ export default class Books extends Component {
     this.state = {
       books: [],
       socketData: {},
+      user: {},
       bookToAdd: ''
     }
 
@@ -25,10 +26,12 @@ export default class Books extends Component {
   }
 
   componentDidMount() {
+    const user = this.props.navigation.state.params.user;
+
     axios.get(`${ipAddress}/api/recommendations/books`)
     .then(res => res.data)
     .then(books => {
-      this.setState({books});
+      this.setState({books, user});
     })
     .catch(err => console.log(err));
   }
@@ -47,10 +50,10 @@ export default class Books extends Component {
       title: this.state.bookToAdd,
       notes: 'some notes!'
     }
-
     let postData = this.state.socketData.category ? this.state.socketData : bookToAdd;
+    const user = this.state.user;
 
-    axios.post(`${ipAddress}/api/recommendations`, postData)
+    axios.post(`${ipAddress}/api/recommendations`, {postData, user})
     .then(res => res.data)
     .then(updatedRecs => {
       const updatedBooks = updatedRecs.filter(rec => {
@@ -102,10 +105,10 @@ export default class Books extends Component {
   render() {
     const booksList = this.state.books;
     let title;
-    let email;
+    let fullName;
     if(this.state.socketData.title) {
       title = this.state.socketData.title;
-      email = this.state.socketData.sender.email;
+      fullName = this.state.socketData.sender.fullName;
     }
 
     return (
@@ -114,7 +117,7 @@ export default class Books extends Component {
         {
           this.state.socketData.title ?
           <View>
-            <Text>You received a new book recommendation from {email}!</Text>
+            <Text>You received a new book recommendation from {fullName}!</Text>
             <Text>Book Title: {this.state.socketData.title}</Text>
             {
               this.state.socketData.notes ?
