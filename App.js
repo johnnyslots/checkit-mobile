@@ -6,6 +6,7 @@ import Home from './client/components/Home';
 import MyLists from './client/components/MyLists';
 import Books from './client/components/Books';
 import SendRec from './client/components/SendRec';
+import bookInfo from './client/components/bookInfo';
 
 const RootNavigator = StackNavigator({
   // Main: {
@@ -30,6 +31,12 @@ const RootNavigator = StackNavigator({
     screen: Books,
     navigationOptions: {
       headerTitle: 'Books'
+    }
+  },
+  bookInfo: {
+    screen: bookInfo,
+    navigationOptions: {
+      headerTitle: 'Book Info'
     }
   },
   SendRec: {

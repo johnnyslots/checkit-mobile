@@ -20,6 +20,7 @@ export default class Books extends Component {
     this.deleteBook = this.deleteBook.bind(this);
     this.handleSocket = this.handleSocket.bind(this);
     this.dismissRec = this.dismissRec.bind(this);
+    this.handleDetailsPress = this.handleDetailsPress.bind(this);
     this.handleSocket();
   }
 
@@ -30,6 +31,10 @@ export default class Books extends Component {
       this.setState({books});
     })
     .catch(err => console.log(err));
+  }
+
+  static navigationOptions = {
+    title: 'Welcome'
   }
 
   handleChange(book) {
@@ -70,6 +75,11 @@ export default class Books extends Component {
     this.setState({
       socketData: {}
     })
+  }
+
+  handleDetailsPress(bookRec) {
+    const { navigate } = this.props.navigation;
+    navigate('bookInfo', {bookRec})
   }
 
   deleteBook(bookRecToDelete) {
@@ -136,6 +146,7 @@ export default class Books extends Component {
             return (
               <View key={bookRec.id}>
                 <Text>{bookRec.item.title}</Text>
+                <Button onPress={() => this.handleDetailsPress({bookRec})} title="See more details" />
                 <Button onPress={() => this.deleteBook({bookRec})} title="Delete"/>
               </View>
             )
