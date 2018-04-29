@@ -84,7 +84,7 @@ export default class Books extends Component {
 
   handleDetailsPress(bookRec) {
     const { navigate } = this.props.navigation;
-    navigate('bookInfo', {bookRec})
+    navigate('BookInfo', {bookRec})
   }
 
   deleteBook(bookRecToDelete) {
@@ -112,7 +112,7 @@ export default class Books extends Component {
       title = this.state.socketData.title;
       fullName = this.state.socketData.sender.fullName;
     }
-
+    //ONLY SHOW NOT PENDING RECS
     return (
       <View style={booksStyles.container}>
         <Text>Books To read</Text>

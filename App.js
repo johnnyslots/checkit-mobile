@@ -7,16 +7,17 @@ import MyLists from './client/components/MyLists';
 import Books from './client/components/Books';
 import SendRec from './client/components/SendRec';
 import RequestRec from './client/components/RequestRec';
-import bookInfo from './client/components/bookInfo';
+import PendingRecs from './client/components/PendingRecs';
+import BookInfo from './client/components/BookInfo';
 
 const RootNavigator = StackNavigator({
+  // Main: {
+  //     screen: Login,
+  //     navigationOptions: {
+  //       headerTitle: 'Login',
+  //     }
+  // },
   Main: {
-      screen: Login,
-      navigationOptions: {
-        headerTitle: 'Login',
-      }
-  },
-  Home: {
       screen: Home,
       navigationOptions: {
         headerTitle: 'Home',
@@ -34,8 +35,8 @@ const RootNavigator = StackNavigator({
       headerTitle: 'Books'
     }
   },
-  bookInfo: {
-    screen: bookInfo,
+  BookInfo: {
+    screen: BookInfo,
     navigationOptions: {
       headerTitle: 'Book Info'
     }
@@ -50,6 +51,12 @@ const RootNavigator = StackNavigator({
     screen: RequestRec,
     navigationOptions: {
       headerTitle: 'Request recommendation'
+    }
+  },
+  PendingRecs: {
+    screen: PendingRecs,
+    navigationOptions: {
+      headerTitle: 'My pending recommendation'
     }
   }
 });

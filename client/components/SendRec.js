@@ -51,6 +51,7 @@ export default class SendRec extends Component {
     axios.get(`${ipAddress}/api/users/${userEmail}`)
     .then(res => {
       if(res.data.email) {
+        //axios.post
         socket.emit('newRec', this.state);
         this.setState({
           email: '',
