@@ -30,8 +30,14 @@ export default class PendingRecs extends Component {
     .catch(err => console.log(err));
   }
 
+  static navigationOptions = {
+    title: 'Welcome'
+  }
+
   addRec(recToAdd) {
-    const recId = recToAdd.rec.id
+    const recId = recToAdd.rec.id;
+    const { navigate } = this.props.navigation;
+    const user = this.state.user;
     axios.put(`${ipAddress}/api/recommendations/pending/${recId}`)
     .then(res => res.data)
     .then(() => {
@@ -70,10 +76,13 @@ export default class PendingRecs extends Component {
       const dateSplit = rec.createdAt.slice(0, 10).split('-');
       return `${months[dateSplit[1]]} ${dateSplit[2]}, ${dateSplit[0]}`
     })
+    const { navigate } = this.props.navigation;
+    const user = this.state.user;
 
     return (
       <View style={pendingRecsStyles.container}>
         <Text>My Pending Recommendations</Text>
+        <Button title="Back to my lists" onPress={() => navigate('MyLists', {user})} />
         {
           pending.length && pending.map((rec, i) => {
             return (

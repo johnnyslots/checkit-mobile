@@ -26,16 +26,18 @@ export default class Books extends Component {
     this.handleDetailsPress = this.handleDetailsPress.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
     this.handleIncomingRecConfirmation = this.handleIncomingRecConfirmation.bind(this);
-    this.handleSocket();
+    // this.handleSocket();
   }
 
   componentDidMount() {
     const user = this.props.navigation.state.params.user;
+    const userId = user.id;
 
-    axios.get(`${ipAddress}/api/recommendations/books`)
+    axios.get(`${ipAddress}/api/recommendations/books/${userId}`)
     .then(res => res.data)
     .then(books => {
       this.setState({books, user});
+      this.handleSocket();
     })
     .catch(err => console.log(err));
   }
@@ -49,12 +51,17 @@ export default class Books extends Component {
   }
 
   handleSubmit() {
-    let bookToAdd = {
+    // let bookToAdd = {
+    //   category: 'books',
+    //   title: this.state.bookToAdd,
+    //   notes: 'some notes!'
+    // }
+    // let postData = this.state.socketData.category ? this.state.socketData : bookToAdd;
+    const postData = {
       category: 'books',
       title: this.state.bookToAdd,
       notes: 'some notes!'
     }
-    let postData = this.state.socketData.category ? this.state.socketData : bookToAdd;
     const user = this.state.user;
 
     axios.post(`${ipAddress}/api/recommendations`, {postData, user})

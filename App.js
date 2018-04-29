@@ -29,6 +29,12 @@ const RootNavigator = StackNavigator({
       headerTitle: 'My Lists'
     }
   },
+  PendingRecs: {
+    screen: PendingRecs,
+    navigationOptions: {
+      headerTitle: 'My pending recommendation'
+    }
+  },
   Books: {
     screen: Books,
     navigationOptions: {
@@ -51,12 +57,6 @@ const RootNavigator = StackNavigator({
     screen: RequestRec,
     navigationOptions: {
       headerTitle: 'Request recommendation'
-    }
-  },
-  PendingRecs: {
-    screen: PendingRecs,
-    navigationOptions: {
-      headerTitle: 'My pending recommendation'
     }
   }
 });
