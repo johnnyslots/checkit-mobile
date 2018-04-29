@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, FlatList, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { Button, FormLabel, FormInput, List, ListItem } from 'react-native-elements';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { StackNavigator } from 'react-navigation';
 import booksStyles from '../styles/books';
@@ -142,8 +143,8 @@ export default class Books extends Component {
     const newRecAlert = `You received a new recommendation from ${fullName}!`
 
     return (
-      <View style={booksStyles.container}>
-        <Text>Books To read</Text>
+      <View>
+        <Text style={booksStyles.header}>Books</Text>
         {
           showAlert ?
         <AwesomeAlert
@@ -168,26 +169,29 @@ export default class Books extends Component {
         />
           :
           <View>
-            <TextInput
+            <FormInput
+              inputStyle={booksStyles.addBookInput}
               onChangeText={this.handleChange}
               value={this.state.bookToAdd}
               placeholder="Add book to my list"
             />
             <Button
+              buttonStyle={booksStyles.button} textStyle={booksStyles.buttonText} raised
               onPress={this.handleSubmit}
               title="Add book"
             />
+              <List containerStyle={{marginBottom: 20}}>
             {
-              booksList.map((bookRec) => {
-                return (
-                  <View key={bookRec.id}>
-                    <Text>{bookRec.item.title}</Text>
-                    <Button onPress={() => this.handleDetailsPress({bookRec})} title="See more details" />
-                    <Button onPress={() => this.deleteBook({bookRec})} title="Delete"/>
-                  </View>
-                )
-              })
+                booksList.map((bookRec) => {
+                  return (
+                    <View key={bookRec.id}>
+                      <ListItem title={bookRec.item.title} titleStyle={booksStyles.title} onPress={() => this.handleDetailsPress({bookRec})} />
+                      <Button onPress={() => this.deleteBook({bookRec})} title="Delete"/>
+                    </View>
+                  )
+                })
             }
+             </List>
           </View>
         }
       </View>

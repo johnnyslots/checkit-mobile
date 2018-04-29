@@ -1,19 +1,38 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import homeStyles from '../styles/home';
 
 const Home = ({navigation}) => {
   const user = navigation.state.params.user;
+
+  const pages = ['MyLists', 'PendingRecs', 'SendRec', 'RequestRec'];
+  const pageTitles = ['My lists', 'Pending recommendations', 'Send recommendation', 'Request recommendation']
+
   return (
-  <View style={homeStyles.container}>
-    <Text>CheckIt</Text>
-    <Button onPress={() => navigation.navigate('MyLists', {user})} title="My lists"/>
-    <Button onPress={() => navigation.navigate('PendingRecs', {user})} title="My pending recommendations"/>
-    <Button onPress={() => navigation.navigate('SendRec', {user})} title="Send recommendation"/>
-    <Button onPress={() => navigation.navigate('RequestRec', {user})} title="Request recommendation"/>
+  <View>
+    <Text style={homeStyles.header}>CheckIt</Text>
+    <View>
+      {
+        pages.map((page, i) => {
+          return (
+            <View  key={i}>
+              <Button buttonStyle={homeStyles.button} raised large onPress={() => navigation.navigate(page, {user})} title={pageTitles[i]}/>
+            </View>
+          )
+
+        })
+      }
+     </View>
   </View>
   )
 }
 
 export default Home;
+
+
+    // <Button style={homeStyles.button} raised onPress={() => navigation.navigate('MyLists', {user})} title="My lists"/>
+    // <Button onPress={() => navigation.navigate('PendingRecs', {user})} title="My pending recommendations"/>
+    // <Button onPress={() => navigation.navigate('SendRec', {user})} title="Send recommendation"/>
+    // <Button onPress={() => navigation.navigate('RequestRec', {user})} title="Request recommendation"/>
