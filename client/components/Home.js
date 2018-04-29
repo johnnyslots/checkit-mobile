@@ -4,7 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import homeStyles from '../styles/home';
 
 const Home = ({navigation}) => {
-  const user = {} || navigation.state.params.user;
+  const user = navigation.state.params.user;
   return (
   <View style={homeStyles.container}>
     <Text>CheckIt</Text>

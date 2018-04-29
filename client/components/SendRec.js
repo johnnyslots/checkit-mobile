@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, FlatList, TextInput, Picker } from 'react-native';
+import { StyleSheet, Text, View, Button, FlatList, TextInput, Picker, Alert } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import sendRecStyles from '../styles/sendRec';

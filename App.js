@@ -11,13 +11,13 @@ import PendingRecs from './client/components/PendingRecs';
 import BookInfo from './client/components/BookInfo';
 
 const RootNavigator = StackNavigator({
-  // Main: {
-  //     screen: Login,
-  //     navigationOptions: {
-  //       headerTitle: 'Login',
-  //     }
-  // },
   Main: {
+      screen: Login,
+      navigationOptions: {
+        headerTitle: 'Login',
+      }
+  },
+  Home: {
       screen: Home,
       navigationOptions: {
         headerTitle: 'Home',
