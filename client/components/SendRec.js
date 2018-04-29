@@ -48,10 +48,13 @@ export default class SendRec extends Component {
 
   handleSubmit() {
     const userEmail = this.state.email
+    const postData = this.state
+    const sender = this.state.sender
     axios.get(`${ipAddress}/api/users/${userEmail}`)
     .then(res => {
       if(res.data.email) {
-        //axios.post
+        axios.post(`${ipAddress}/api/recommendations`, {postData, sender, userEmail})
+        .catch(err => console.log(err))
         socket.emit('newRec', this.state);
         this.setState({
           email: '',

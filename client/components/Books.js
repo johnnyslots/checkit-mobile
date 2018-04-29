@@ -91,6 +91,7 @@ export default class Books extends Component {
     const user = this.state.user;
     const { navigate } = this.props.navigation;
     navigate('PendingRecs', {user})
+    this.hideAlert();
   }
 
   // dismissRec() {
@@ -131,6 +132,7 @@ export default class Books extends Component {
       title = this.state.socketData.title;
       fullName = this.state.socketData.sender.fullName;
     }
+    const newRecAlert = `You received a new recommendation from ${fullName}!`
 
     return (
       <View style={booksStyles.container}>
@@ -140,7 +142,7 @@ export default class Books extends Component {
         <AwesomeAlert
           show={showAlert}
           showProgress={false}
-          title="You received a new recommendation!"
+          title={newRecAlert}
           message="Do you want to see more details?"
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}

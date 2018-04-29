@@ -20,8 +20,9 @@ export default class PendingRecs extends Component {
 
   componentDidMount() {
     const user = this.props.navigation.state.params.user;
+    const userId = user.id;
 
-    axios.get(`${ipAddress}/api/recommendations/pending`)
+    axios.get(`${ipAddress}/api/recommendations/pending/${userId}`)
     .then(res => res.data)
     .then(pendingRecs => {
       this.setState({pendingRecs, user});
