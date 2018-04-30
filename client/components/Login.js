@@ -57,7 +57,6 @@ render() {
         <Text style={loginStyles.header}>CheckIt</Text>
         <View style={loginStyles.inputContainer}>
           <FormInput
-
             onChangeText={this.handleEmailChange}
             value={this.state.email}
             placeholder="Email"

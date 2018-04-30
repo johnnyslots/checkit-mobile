@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, FlatList, TextInput, Picker, Alert } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { StyleSheet, Text, View, FlatList, TextInput, Picker, Alert } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import sendRecStyles from '../styles/sendRec';
 import axios from 'axios';
@@ -74,45 +74,40 @@ export default class SendRec extends Component {
   render() {
 
     return (
-      <View style={sendRecStyles.container}>
-        <Text>Send recommendation</Text>
-        <TextInput
-          onChangeText={this.handleEmailChange}
-          value={this.state.email}
-          placeholder="Send to (email)"
-        />
-        {
-          this.state.incorrectEmail ?
-          <Text>User doesn't exist</Text>
-          : null
-        }
-        <TextInput
-          onChangeText={this.handleCategoryChange}
-          value={this.state.category}
-          placeholder="Category"
-        />
-        <TextInput
-          onChangeText={this.handleTitleChange}
-          value={this.state.title}
-          placeholder="Title"
-        />
-        <TextInput
-          onChangeText={this.handleNotesChange}
-          value={this.state.notes}
-          placeholder="Notes"
-        />
-        <Button onPress={this.handleSubmit} title="Send"/>
+      <View>
+        <Text style={sendRecStyles.header}>Send recommendation</Text>
+        <View style={sendRecStyles.inputContainer}>
+          <FormInput
+            onChangeText={this.handleEmailChange}
+            value={this.state.email}
+            placeholder="Send to (email)"
+          />
+          {
+            this.state.incorrectEmail ?
+            <Text>User doesn't exist</Text>
+            : null
+          }
+          <FormInput
+            inputStyle={sendRecStyles.input}
+            onChangeText={this.handleCategoryChange}
+            value={this.state.category}
+            placeholder="Category"
+          />
+          <FormInput
+            inputStyle={sendRecStyles.input}
+            onChangeText={this.handleTitleChange}
+            value={this.state.title}
+            placeholder="Title"
+          />
+          <FormInput
+            inputStyle={sendRecStyles.input}
+            onChangeText={this.handleNotesChange}
+            value={this.state.notes}
+            placeholder="Notes"
+          />
+        </View>
+        <Button buttonStyle={sendRecStyles.button} onPress={this.handleSubmit} title="Send"/>
       </View>
     )
   }
 }
-
-
-//         <FormLabel>Category</FormLabel>
-//         <FormInput onChangeText={this.handleCategoryChange} />
-//         <FormLabel>Title</FormLabel>
-//         <FormInput onChangeText={this.handleTitleChange} />
-//         <FormLabel>Notes</FormLabel>
-//         <FormInput onChangeText={this.handleNotesChange}/>
-
-// // <FormValidationMessage>This field is required</FormValidationMessage>
