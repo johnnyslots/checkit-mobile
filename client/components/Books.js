@@ -21,13 +21,11 @@ export default class Books extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.deleteBook = this.deleteBook.bind(this);
+    // this.deleteBook = this.deleteBook.bind(this);
     this.handleSocket = this.handleSocket.bind(this);
-    // this.dismissRec = this.dismissRec.bind(this);
     this.handleDetailsPress = this.handleDetailsPress.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
     this.handleIncomingRecConfirmation = this.handleIncomingRecConfirmation.bind(this);
-    // this.handleSocket();
   }
 
   componentDidMount() {
@@ -52,12 +50,6 @@ export default class Books extends Component {
   }
 
   handleSubmit() {
-    // let bookToAdd = {
-    //   category: 'books',
-    //   title: this.state.bookToAdd,
-    //   notes: 'some notes!'
-    // }
-    // let postData = this.state.socketData.category ? this.state.socketData : bookToAdd;
     const postData = {
       category: 'books',
       title: this.state.bookToAdd,
@@ -102,33 +94,28 @@ export default class Books extends Component {
     this.hideAlert();
   }
 
-  // dismissRec() {
-  //   this.setState({
-  //     socketData: {}
-  //   })
-  // }
-
   handleDetailsPress(bookRec) {
     const { navigate } = this.props.navigation;
-    navigate('BookInfo', {bookRec})
+    const user = this.state.user;
+    navigate('BookInfo', {bookRec, user})
   }
 
-  deleteBook(bookRecToDelete) {
-    const id = bookRecToDelete.bookRec.id;
-    axios.delete(`${ipAddress}/api/recommendations/${id}`)
-    .then(res => res.data)
-    .then(() => {
-      const currentBooks = this.state.books
-      let updatedBooks = []
-      for(let i = 0; i < currentBooks.length; i++) {
-        if(currentBooks[i].id !== id) {
-          updatedBooks.push(currentBooks[i])
-        }
-      }
-      this.setState({books: updatedBooks})
-    })
-    .catch(err => console.log(err))
-  }
+  // deleteBook(bookRecToDelete) {
+  //   const id = bookRecToDelete.bookRec.id;
+  //   axios.delete(`${ipAddress}/api/recommendations/${id}`)
+  //   .then(res => res.data)
+  //   .then(() => {
+  //     const currentBooks = this.state.books
+  //     let updatedBooks = []
+  //     for(let i = 0; i < currentBooks.length; i++) {
+  //       if(currentBooks[i].id !== id) {
+  //         updatedBooks.push(currentBooks[i])
+  //       }
+  //     }
+  //     this.setState({books: updatedBooks})
+  //   })
+  //   .catch(err => console.log(err))
+  // }
 
   render() {
     const booksList = this.state.books;
@@ -143,50 +130,52 @@ export default class Books extends Component {
     const newRecAlert = `You received a new recommendation from ${fullName}!`
 
     return (
-      <View>
+      <View style={booksStyles.container}>
         <Text style={booksStyles.header}>Books</Text>
+
         {
           showAlert ?
-        <AwesomeAlert
-          show={showAlert}
-          showProgress={false}
-          title={newRecAlert}
-          message="Do you want to see more details?"
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
-          showCancelButton={true}
-          showConfirmButton={true}
-          cancelText="Not now"
-          confirmText="More details"
-          confirmButtonColor="#aaa"
-          cancelButtonColor='#aaa'
-          onCancelPressed={() => {
-            this.hideAlert();
-          }}
-          onConfirmPressed={() => {
-            this.handleIncomingRecConfirmation();
-          }}
-        />
+            <AwesomeAlert
+              show={showAlert}
+              showProgress={false}
+              title={newRecAlert}
+              message="Do you want to see more details?"
+              closeOnTouchOutside={true}
+              closeOnHardwareBackPress={false}
+              showCancelButton={true}
+              showConfirmButton={true}
+              cancelText="Not now"
+              confirmText="More details"
+              confirmButtonColor="#aaa"
+              cancelButtonColor='#aaa'
+              onCancelPressed={() => {
+                this.hideAlert();
+              }}
+              onConfirmPressed={() => {
+                this.handleIncomingRecConfirmation();
+              }}
+            />
           :
           <View>
+            <View style={booksStyles.inputContainer}>
             <FormInput
               inputStyle={booksStyles.addBookInput}
               onChangeText={this.handleChange}
               value={this.state.bookToAdd}
               placeholder="Add book to my list"
             />
+            </View>
             <Button
               buttonStyle={booksStyles.button} textStyle={booksStyles.buttonText} raised
               onPress={this.handleSubmit}
               title="Add book"
             />
-              <List containerStyle={{marginBottom: 20}}>
+              <List containerStyle={booksStyles.list}>
             {
                 booksList.map((bookRec) => {
                   return (
                     <View key={bookRec.id}>
                       <ListItem title={bookRec.item.title} titleStyle={booksStyles.title} onPress={() => this.handleDetailsPress({bookRec})} />
-                      <Button onPress={() => this.deleteBook({bookRec})} title="Delete"/>
                     </View>
                   )
                 })
