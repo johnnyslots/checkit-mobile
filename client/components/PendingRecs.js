@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, FlatList, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Alert } from 'react-native';
+import { Button } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import pendingRecsStyles from '../styles/pendingRecs';
 import axios from 'axios';
@@ -81,23 +82,34 @@ export default class PendingRecs extends Component {
 
     return (
       <View style={pendingRecsStyles.container}>
-        <Text>My Pending Recommendations</Text>
-        <Button title="Back to my lists" onPress={() => navigate('MyLists', {user})} />
+        <Button buttonStyle={pendingRecsStyles.backButton} textStyle={pendingRecsStyles.buttonText} title="Back to my lists" onPress={() => navigate('MyLists', {user})} />
+        <Text style={pendingRecsStyles.header}>My Pending Recommendations</Text>
         {
-          pending.length && pending.map((rec, i) => {
-            return (
-              <View key={rec.id}>
-                <Text>From: {rec.from.fullName} </Text>
-                <Text>On: {recommendedAt[i]}</Text>
-                <Text>Category: {rec.item.category} </Text>
-                <Text>Title: {rec.item.title} </Text>
-                <Text>Notes: {rec.notes} </Text>
-                <Button onPress={() => this.addRec({rec})} title="Add recommendation to my list"/>
-                <Button onPress={() => this.deleteRec({rec})} title="Dismiss recommendation"/>
-              </View>
-            )
-          })
+          !pending.length ?
+          <View style={pendingRecsStyles.textContainer}>
+            <Text style={pendingRecsStyles.text}>You have no pending recommendations!</Text>
+          </View>
+          : null
         }
+          {
+            pending.length && pending.map((rec, i) => {
+              return (
+                <View style={pendingRecsStyles.textContainer} key={rec.id}>
+                  <Text style={pendingRecsStyles.text}>From: {rec.from.fullName} </Text>
+                  <Text style={pendingRecsStyles.text}>On: {recommendedAt[i]}</Text>
+                  <Text style={pendingRecsStyles.text}>Category: {rec.item.category} </Text>
+                  <Text style={pendingRecsStyles.text}>Title: {rec.item.title} </Text>
+                  {
+                    rec.notes ?
+                    <Text style={pendingRecsStyles.text}>Notes: {rec.notes} </Text>
+                    : null
+                  }
+                  <Button buttonStyle={pendingRecsStyles.button} textStyle={pendingRecsStyles.buttonText} onPress={() => this.addRec({rec})} title="Add recommendation to my list"/>
+                  <Button buttonStyle={pendingRecsStyles.button} textStyle={pendingRecsStyles.buttonText} onPress={() => this.deleteRec({rec})} title="   Dismiss recommendation   "/>
+                </View>
+              )
+            })
+          }
       </View>
     )
   }

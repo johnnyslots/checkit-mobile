@@ -158,12 +158,12 @@ export default class Books extends Component {
           :
           <View>
             <View style={booksStyles.inputContainer}>
-            <FormInput
-              inputStyle={booksStyles.addBookInput}
-              onChangeText={this.handleChange}
-              value={this.state.bookToAdd}
-              placeholder="Add book to my list"
-            />
+              <FormInput
+                inputStyle={booksStyles.addBookInput}
+                onChangeText={this.handleChange}
+                value={this.state.bookToAdd}
+                placeholder="Add book to my list"
+              />
             </View>
             <Button
               buttonStyle={booksStyles.button} textStyle={booksStyles.buttonText} raised
@@ -175,7 +175,7 @@ export default class Books extends Component {
                 booksList.map((bookRec) => {
                   return (
                     <View key={bookRec.id}>
-                      <ListItem title={bookRec.item.title} titleStyle={booksStyles.title} onPress={() => this.handleDetailsPress({bookRec})} />
+                      <ListItem containerStyle={booksStyles.listContainer} title={bookRec.item.title} titleStyle={booksStyles.title} onPress={() => this.handleDetailsPress({bookRec})} />
                     </View>
                   )
                 })

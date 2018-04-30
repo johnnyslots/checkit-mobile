@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { Button, FormLabel, FormInput } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import loginStyles from '../styles/login';
 import axios from 'axios';
@@ -52,18 +53,22 @@ export default class Login extends Component {
 render() {
 
     return (
-      <View style={loginStyles.container}>
-        <Text>CheckIt</Text>
-        <TextInput
-          onChangeText={this.handleEmailChange}
-          value={this.state.email}
-          placeholder="Email"
-        />
-        <TextInput
-          onChangeText={this.handlePasswordChange}
-          value={this.state.password}
-          placeholder="Password"
-        />
+      <View>
+        <Text style={loginStyles.header}>CheckIt</Text>
+        <View style={loginStyles.inputContainer}>
+          <FormInput
+
+            onChangeText={this.handleEmailChange}
+            value={this.state.email}
+            placeholder="Email"
+          />
+          <FormInput
+            inputStyle={loginStyles.input}
+            onChangeText={this.handlePasswordChange}
+            value={this.state.password}
+            placeholder="Password"
+          />
+        </View>
         {
           this.state.incorrect ?
           <View>
@@ -72,6 +77,7 @@ render() {
           : null
         }
         <Button
+          buttonStyle={loginStyles.button}
           title="Login"
           onPress={this.handleSubmit}
         />
@@ -79,13 +85,3 @@ render() {
     );
   }
 }
-
-// const Login = ({navigation}) => (
-//   <View style={loginStyles.container}>
-//     <Text>CheckIt</Text>
-//     <Text>Login</Text>
-//     <Button onPress={() => navigation.navigate('Home')} title="Login"/>
-//   </View>
-// )
-
-// export default Login;

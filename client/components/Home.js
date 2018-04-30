@@ -30,9 +30,3 @@ const Home = ({navigation}) => {
 }
 
 export default Home;
-
-
-    // <Button style={homeStyles.button} raised onPress={() => navigation.navigate('MyLists', {user})} title="My lists"/>
-    // <Button onPress={() => navigation.navigate('PendingRecs', {user})} title="My pending recommendations"/>
-    // <Button onPress={() => navigation.navigate('SendRec', {user})} title="Send recommendation"/>
-    // <Button onPress={() => navigation.navigate('RequestRec', {user})} title="Request recommendation"/>

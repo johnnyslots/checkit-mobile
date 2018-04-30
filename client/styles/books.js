@@ -8,25 +8,18 @@ const booksStyles = StyleSheet.create({
   },
   header: {
     textAlign: 'center',
-    // textAlignVertical: "center",
     fontWeight: 'bold',
     paddingTop: '20%',
     paddingBottom: '10%',
     fontSize: 40
   },
-  inputContainer: {
-    // paddingLeft: '5%',
-    // paddingRight: '5%',
-    // backgroundColor: 'red'
-  },
   addBookInput: {
     paddingLeft: '5%',
-    // paddingRight: '10%',
     textAlignVertical: "center",
     borderBottomColor: 'black'
   },
   title: {
-    paddingLeft: '3%'
+    paddingLeft: '5%'
   },
   button: {
     backgroundColor: '#2C4E91',
@@ -43,6 +36,9 @@ const booksStyles = StyleSheet.create({
   },
   list: {
     marginBottom: 20,
+  },
+  listContainer: {
+    marginRight: '3%'
   }
 })
 
