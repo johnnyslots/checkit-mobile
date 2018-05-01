@@ -5,15 +5,18 @@ const sendRecStyles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: "center",
     fontWeight: 'bold',
-    paddingTop: '20%',
-    paddingBottom: '20%',
+    paddingTop: '15%',
+    paddingBottom: '10%',
     fontSize: 30
   },
-  inputContainer: {
-    marginBottom: '5%'
+  recSent: {
+    marginLeft: '5%',
+    marginRight: '5%',
+    paddingBottom: '5%',
   },
   input: {
-    marginTop: '5%'
+    marginLeft: '5%',
+    marginRight: '5%'
   },
   button: {
     backgroundColor: '#2C4E91',

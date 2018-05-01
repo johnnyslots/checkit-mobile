@@ -33,7 +33,11 @@ export default class Login extends Component {
   }
 
   handleSubmit() {
-    axios.post(`${ipAddress}/auth/login`, this.state)
+    const email = this.state.email.toLowerCase();
+    const password = this.state.password;
+    const state = {email, password};
+    console.log('STATE!', state)
+    axios.post(`${ipAddress}/auth/login`, state)
     .then(res => res.data)
     .then(user => {
       const { navigate } = this.props.navigation;

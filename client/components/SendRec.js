@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, TextInput, Picker, Alert } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
+import { Dropdown } from 'react-native-material-dropdown';
+import { TextField } from 'react-native-material-textfield';
 import { StackNavigator } from 'react-navigation';
 import sendRecStyles from '../styles/sendRec';
 import axios from 'axios';
@@ -16,7 +18,8 @@ export default class SendRec extends Component {
       notes: '',
       email: '',
       incorrectEmail: false,
-      sender: {}
+      sender: {},
+      recSent: false
     }
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -35,7 +38,8 @@ export default class SendRec extends Component {
   }
 
   handleCategoryChange(category) {
-    this.setState({category});
+    const lowerCaseCategory = category.toLowerCase();
+    this.setState({category: lowerCaseCategory});
   }
 
   handleTitleChange(title) {
@@ -47,23 +51,25 @@ export default class SendRec extends Component {
   }
 
   handleSubmit() {
-    const userEmail = this.state.email
+    const userEmail = this.state.email.toLowerCase();
     const postData = this.state
     const sender = this.state.sender
     axios.get(`${ipAddress}/api/users/${userEmail}`)
     .then(res => {
       if(res.data.email) {
-        axios.post(`${ipAddress}/api/recommendations`, {postData, sender, userEmail})
+        return axios.post(`${ipAddress}/api/recommendations`, {postData, sender, userEmail})
         .catch(err => console.log(err))
-        socket.emit('newRec', this.state);
-        this.setState({
-          email: '',
-          category: '',
-          title: '',
-          notes: '',
-          incorrectEmail: false
-        })
       }
+    })
+    .then(() => {
+      socket.emit('newRec', this.state);
+      this.setState({
+        email: '',
+        title: '',
+        notes: '',
+        incorrectEmail: false,
+        recSent: true
+      })
     })
     .catch(err => {
       this.setState({incorrectEmail: true})
@@ -73,37 +79,53 @@ export default class SendRec extends Component {
 
   render() {
 
+    const categories = [{
+      value: 'Books',
+    }, {
+      value: 'Movies',
+    }, {
+      value: 'Podcasts',
+    }, {
+      value: 'Movies',
+    }];
+
     return (
       <View>
         <Text style={sendRecStyles.header}>Send recommendation</Text>
         <View style={sendRecStyles.inputContainer}>
-          <FormInput
+        {
+          this.state.recSent ?
+          <Text style={sendRecStyles.recSent}>Your recommendation was sent!</Text>
+          : null
+        }
+          <Dropdown
+            label='Category'
+            data={categories}
+            containerStyle={sendRecStyles.input}
+            onChangeText={this.handleCategoryChange}
+          />
+          <TextField
+            containerStyle={sendRecStyles.input}
             onChangeText={this.handleEmailChange}
             value={this.state.email}
-            placeholder="Send to (email)"
+            label="Send to (email)"
           />
           {
             this.state.incorrectEmail ?
             <Text>User doesn't exist</Text>
             : null
           }
-          <FormInput
-            inputStyle={sendRecStyles.input}
-            onChangeText={this.handleCategoryChange}
-            value={this.state.category}
-            placeholder="Category"
-          />
-          <FormInput
-            inputStyle={sendRecStyles.input}
+          <TextField
+            containerStyle={sendRecStyles.input}
             onChangeText={this.handleTitleChange}
             value={this.state.title}
-            placeholder="Title"
+            label="Title"
           />
-          <FormInput
-            inputStyle={sendRecStyles.input}
+          <TextField
+            containerStyle={sendRecStyles.input}
             onChangeText={this.handleNotesChange}
             value={this.state.notes}
-            placeholder="Notes"
+            label="Notes"
           />
         </View>
         <Button buttonStyle={sendRecStyles.button} onPress={this.handleSubmit} title="Send"/>
