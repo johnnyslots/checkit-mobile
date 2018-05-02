@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList, TextInput, Picker, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, Picker, Alert, KeyboardAvoidingView } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
 import { TextField } from 'react-native-material-textfield';
@@ -90,7 +90,7 @@ export default class SendRec extends Component {
     }];
 
     return (
-      <View>
+      <KeyboardAvoidingView behavior="padding" enabled>
         <Text style={sendRecStyles.header}>Send recommendation</Text>
         <View style={sendRecStyles.inputContainer}>
         {
@@ -129,7 +129,7 @@ export default class SendRec extends Component {
           />
         </View>
         <Button buttonStyle={sendRecStyles.button} onPress={this.handleSubmit} title="Send"/>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }

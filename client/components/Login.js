@@ -69,6 +69,7 @@ render() {
             inputStyle={loginStyles.input}
             onChangeText={this.handlePasswordChange}
             value={this.state.password}
+            secureTextEntry={true}
             placeholder="Password"
           />
         </View>

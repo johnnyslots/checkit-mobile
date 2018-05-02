@@ -5,7 +5,7 @@ const loginStyles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: "center",
     fontWeight: 'bold',
-    paddingTop: '20%',
+    paddingTop: '40%',
     paddingBottom: '20%',
     fontSize: 40
   },

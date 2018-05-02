@@ -14,13 +14,13 @@ const RootNavigator = StackNavigator({
   Main: {
       screen: Login,
       navigationOptions: {
-        headerTitle: 'Login',
+        header: false,
       }
   },
   Home: {
       screen: Home,
       navigationOptions: {
-        headerTitle: 'Home',
+        header: false,
       }
   },
   MyLists: {
